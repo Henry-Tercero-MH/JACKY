@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -15,7 +14,6 @@ type FormData = {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -84,15 +82,15 @@ export default function LoginPage() {
         className="hidden flex-col justify-between p-12 md:flex md:w-1/2"
         style={{ background: 'linear-gradient(160deg, #1A0A14 0%, #2D0A22 100%)' }}
       >
-        {/* Logo */}
-        <div className="flex flex-col leading-none">
+        {/* Logo — clickeable a página principal */}
+        <a href="/" className="flex flex-col leading-none hover:opacity-80 transition-opacity cursor-pointer">
           <span className="font-playfair font-black text-3xl" style={{ color: '#FFF5F8' }}>
             Jacky
           </span>
           <span className="font-playfair font-black text-3xl" style={{ color: '#FF1B6D' }}>
             Flores
           </span>
-        </div>
+        </a>
 
         {/* Mensaje motivacional */}
         <div>
