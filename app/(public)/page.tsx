@@ -113,7 +113,7 @@ export default async function HomePage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {destacados.map((p) => (
                 <FadeUp key={p.id}>
-                  <ProductCardEditorial producto={p} />
+                  <ProductCardEditorial producto={p} whatsapp={config?.whatsapp || "+"} />
                 </FadeUp>
               ))}
             </div>
