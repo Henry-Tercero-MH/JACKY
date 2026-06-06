@@ -42,9 +42,9 @@ export default function LoginPage() {
     } else if (result?.ok) {
       console.log('✅ [LOGIN] Autenticación exitosa, redirigiendo...')
       toast.success('¡Bienvenido!')
-      await new Promise(r => setTimeout(r, 500))
-      router.push('/admin')
-      router.refresh()
+      // Usar window.location para forzar reload y establecer cookies correctamente
+      await new Promise(r => setTimeout(r, 800))
+      window.location.href = '/admin'
     } else {
       console.error('❌ [LOGIN] Error desconocido')
       toast.error('Error al iniciar sesión')
