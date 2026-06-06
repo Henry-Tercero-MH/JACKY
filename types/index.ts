@@ -5,6 +5,20 @@ export type CategoriaProducto =
   | 'Condolencias'
   | 'Decoración'
   | 'Ocasiones especiales'
+  | 'Rosas'
+  | 'Rosas eternas'
+  | 'Tulipanes'
+  | 'Girasoles'
+  | 'Gardenias'
+  | 'Gerberas'
+  | 'Claveles'
+  | 'Peluches'
+  | 'Pachones'
+  | 'Playeras'
+  | 'Gorras'
+  | 'Chocolates'
+  | 'Globos'
+  | 'Tarjetas'
 
 export const CATEGORIAS: CategoriaProducto[] = [
   'Bodas',
@@ -13,6 +27,20 @@ export const CATEGORIAS: CategoriaProducto[] = [
   'Condolencias',
   'Decoración',
   'Ocasiones especiales',
+  'Rosas',
+  'Rosas eternas',
+  'Tulipanes',
+  'Girasoles',
+  'Gardenias',
+  'Gerberas',
+  'Claveles',
+  'Peluches',
+  'Pachones',
+  'Playeras',
+  'Gorras',
+  'Chocolates',
+  'Globos',
+  'Tarjetas',
 ]
 
 export interface Producto {
