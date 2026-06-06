@@ -135,6 +135,7 @@ export default async function HomePage() {
                 >
                   <Image
                     src="/jackyPagina.jpg"
+                    unoptimized={true}
                     alt="Nuestra historia"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
