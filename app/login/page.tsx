@@ -25,18 +25,29 @@ export default function LoginPage() {
 
   const onSubmit = async (data: FormData) => {
     setLoading(true)
+    console.log('🔑 [LOGIN] Iniciando autenticación...', data.username)
+    
     const result = await signIn('credentials', {
       username: data.username,
       password: data.password,
       redirect: false,
     })
+
+    console.log('🔑 [LOGIN] Resultado:', result)
     setLoading(false)
 
     if (result?.error) {
+      console.error('❌ [LOGIN] Error:', result.error)
       toast.error('Usuario o contraseña incorrectos')
-    } else {
+    } else if (result?.ok) {
+      console.log('✅ [LOGIN] Autenticación exitosa, redirigiendo...')
+      toast.success('¡Bienvenido!')
+      await new Promise(r => setTimeout(r, 500))
       router.push('/admin')
       router.refresh()
+    } else {
+      console.error('❌ [LOGIN] Error desconocido')
+      toast.error('Error al iniciar sesión')
     }
   }
 
@@ -78,70 +89,74 @@ export default function LoginPage() {
           <span className="font-playfair font-black text-3xl" style={{ color: '#FFF5F8' }}>
             Jacky
           </span>
-          <span className="font-dancing text-2xl" style={{ color: '#FF1B6D', lineHeight: '1.2' }}>
-            Flores &amp; Detalles
+          <span className="font-playfair font-black text-3xl" style={{ color: '#FF1B6D' }}>
+            Flores
           </span>
         </div>
 
-        {/* Cita central */}
+        {/* Mensaje motivacional */}
         <div>
-          <p className="font-playfair font-black text-4xl leading-tight" style={{ color: '#FFF5F8' }}>
-            Cada flor cuenta{' '}
-            <em className="not-italic italic" style={{ color: '#FF1B6D' }}>
-              una historia
-            </em>
+          <p className="mb-6 max-w-sm font-nunito text-lg font-semibold leading-relaxed text-white">
+            Panel de administración para gestionar tu tienda de flores artesanales
           </p>
-          <p className="mt-4 font-nunito text-sm font-semibold leading-relaxed" style={{ color: 'rgba(255,245,248,0.45)' }}>
-            Panel de administración exclusivo para gestionar tu tienda floral.
-          </p>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full" style={{ backgroundColor: '#FF1B6D' }} />
+              <span className="text-sm text-white text-opacity-80">Gestiona productos</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full" style={{ backgroundColor: '#FF1B6D' }} />
+              <span className="text-sm text-white text-opacity-80">Configura redes sociales</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full" style={{ backgroundColor: '#FF1B6D' }} />
+              <span className="text-sm text-white text-opacity-80">Carga catálogo</span>
+            </div>
+          </div>
         </div>
 
-        {/* Pie */}
-        <p className="font-nunito text-xs font-semibold" style={{ color: 'rgba(255,245,248,0.25)' }}>
-          © {new Date().getFullYear()} Jacky Flores y Detalles
+        {/* Footer */}
+        <p className="text-xs text-white text-opacity-60">
+          © 2025 Jacky Flores y Detalles. Todos los derechos reservados.
         </p>
       </div>
 
       {/* Derecha — formulario */}
       <div
-        className="flex w-full flex-col items-center justify-center px-6 py-12 md:w-1/2"
+        className="flex w-full flex-col items-center justify-center px-6 md:w-1/2"
         style={{ backgroundColor: '#FFF5F8' }}
       >
         <div className="w-full max-w-sm">
-
-          {/* Header móvil */}
-          <div className="mb-2 block md:hidden">
-            <span className="font-playfair font-black text-2xl" style={{ color: '#1A0A14' }}>Jacky</span>
-            <span className="ml-2 font-dancing text-xl" style={{ color: '#FF1B6D' }}>Flores &amp; Detalles</span>
-          </div>
-
-          <h1 className="mb-1 font-playfair font-black text-3xl" style={{ color: '#1A0A14' }}>
-            Bienvenida de vuelta
+          <h1
+            className="mb-2 font-playfair text-4xl font-black"
+            style={{ color: '#1A0A14' }}
+          >
+            Bienvenida
           </h1>
-          <p className="mb-8 font-nunito text-sm font-semibold" style={{ color: 'rgba(26,10,20,0.45)' }}>
-            Ingresa tus credenciales para continuar
-          </p>
+          <p className="mb-8 text-gray-600">Inicia sesión para acceder al panel admin</p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="username" className="font-nunito text-xs font-bold uppercase tracking-widest" style={{ color: '#1A0A14' }}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* Usuario */}
+            <div>
+              <Label htmlFor="username" className="mb-2 block font-semibold text-gray-900">
                 Usuario
               </Label>
               <Input
                 id="username"
-                placeholder="tu_usuario"
-                className="rounded-xl border-0 bg-white font-nunito font-semibold shadow-sm ring-1 ring-inset focus-visible:ring-[#FF1B6D]"
-                style={{ '--tw-ring-color': 'rgba(26,10,20,0.12)' } as React.CSSProperties}
-                {...register('username', { required: 'El usuario es requerido' })}
+                type="text"
+                placeholder="ej: jacky"
+                {...register('username', { required: 'Usuario requerido' })}
+                disabled={loading}
+                className="border-gray-300"
               />
               {errors.username && (
-                <p className="font-nunito text-xs font-semibold text-red-500">{errors.username.message}</p>
+                <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>
               )}
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="password" className="font-nunito text-xs font-bold uppercase tracking-widest" style={{ color: '#1A0A14' }}>
+            {/* Contraseña */}
+            <div>
+              <Label htmlFor="password" className="mb-2 block font-semibold text-gray-900">
                 Contraseña
               </Label>
               <div className="relative">
@@ -149,50 +164,45 @@ export default function LoginPage() {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  className="rounded-xl border-0 bg-white font-nunito font-semibold shadow-sm ring-1 ring-inset pr-10 focus-visible:ring-[#FF1B6D]"
-                  style={{ '--tw-ring-color': 'rgba(26,10,20,0.12)' } as React.CSSProperties}
-                  {...register('password', { required: 'La contraseña es requerida' })}
+                  {...register('password', { required: 'Contraseña requerida' })}
+                  disabled={loading}
+                  className="border-gray-300 pr-10"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-                  style={{ color: 'rgba(26,10,20,0.35)' }}
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label="Mostrar contraseña"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
+                  disabled={loading}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
               {errors.password && (
-                <p className="font-nunito text-xs font-semibold text-red-500">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
               )}
             </div>
 
+            {/* Submit button */}
             <button
               type="submit"
               disabled={loading}
-              className="mt-1 w-full rounded-full py-3 font-nunito text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="w-full rounded-lg px-4 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
               style={{ backgroundColor: '#FF1B6D' }}
             >
-              {loading ? 'Verificando...' : 'Ingresar al panel'}
+              {loading ? 'Cargando...' : 'Iniciar sesión'}
             </button>
           </form>
 
-          <div className="mt-3">
+          {/* Test user button */}
+          <div className="mt-8 border-t border-gray-300 pt-6">
             <button
-              type="button"
               onClick={createTestUser}
               disabled={loading}
-              className="w-full rounded-full border-2 py-3 font-nunito text-sm font-bold transition-all hover:bg-[#1A0A14] hover:text-white disabled:opacity-60"
-              style={{ borderColor: '#1A0A14', color: '#1A0A14' }}
+              className="w-full text-center text-sm text-gray-600 hover:text-gray-900"
             >
               Crear usuario de prueba
             </button>
           </div>
-
-          <p className="mt-8 text-center font-nunito text-xs font-semibold" style={{ color: 'rgba(26,10,20,0.3)' }}>
-            Acceso restringido solo al equipo autorizado
-          </p>
         </div>
       </div>
     </div>
