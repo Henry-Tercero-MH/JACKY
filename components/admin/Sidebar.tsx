@@ -9,6 +9,7 @@ import {
   Share2,
   Settings,
   LogOut,
+  Home,
   Menu,
   X,
 } from 'lucide-react'
@@ -88,11 +89,20 @@ function SidebarContent({ userName, userEmail, onClose }: Props & { onClose?: ()
               {userEmail}
             </p>
           </div>
+          <Link
+            href="/"
+            className="shrink-0 rounded-lg p-1.5 transition-colors hover:text-opacity-100"
+            style={{ color: 'rgba(255,245,248,0.4)' }}
+            title="Volver a inicio"
+          >
+            <Home className="h-4 w-4" />
+          </Link>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="shrink-0 rounded-lg p-1.5 transition-colors"
+            className="shrink-0 rounded-lg p-1.5 transition-colors hover:text-opacity-100"
             style={{ color: 'rgba(255,245,248,0.4)' }}
             aria-label="Cerrar sesión"
+            title="Cerrar sesión"
           >
             <LogOut className="h-4 w-4" />
           </button>
