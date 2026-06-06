@@ -79,13 +79,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  session: { strategy: 'jwt', maxAge: 8 * 60 * 60 },
+  session: {
+    strategy: 'jwt',
+    maxAge: 8 * 60 * 60,
+  },
   pages: { signIn: '/login' },
   callbacks: {
     jwt({ token, user }) {
       if (user) {
         token.username = user.name
         token.email = user.email
+        token.id = user.id
       }
       return token
     },
@@ -93,6 +97,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (session.user) {
         session.user.name = token.username as string
         session.user.email = token.email as string
+        session.user.id = token.id as string
       }
       return session
     },
