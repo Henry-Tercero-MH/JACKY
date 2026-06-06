@@ -2,8 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 interface Props {
-  nombreTienda: string
-  descripcionSeo: string
+  config?: {
+    nombreTienda?: string
+    descripcionSeo?: string
+  }
+  nombreTienda?: string
+  descripcionSeo?: string
 }
 
 const stats = [
@@ -12,7 +16,11 @@ const stats = [
   { value: '3 años', label: 'De experiencia' },
 ]
 
-export default function HeroSection({ nombreTienda, descripcionSeo }: Props) {
+export default function HeroSection({ 
+  config, 
+  nombreTienda = config?.nombreTienda || 'Jacky Flores y Detalles',
+  descripcionSeo = config?.descripcionSeo || 'Diseñamos arreglos únicos llenos de emoción y detalle para cada momento especial de tu vida.'
+}: Props) {
   return (
     <section className="relative grid min-h-screen md:grid-cols-2">
       {/* Izquierda — contenido editorial */}
@@ -45,7 +53,7 @@ export default function HeroSection({ nombreTienda, descripcionSeo }: Props) {
           className="mt-6 max-w-md font-nunito text-base font-semibold leading-relaxed"
           style={{ color: 'rgba(26,10,20,0.65)' }}
         >
-          {descripcionSeo || 'Diseñamos arreglos únicos llenos de emoción y detalle para cada momento especial de tu vida.'}
+          {descripcionSeo}
         </p>
 
         <div className="mt-10 flex flex-wrap gap-4">
@@ -88,20 +96,25 @@ export default function HeroSection({ nombreTienda, descripcionSeo }: Props) {
         </div>
       </div>
 
-      {/* Derecha — imagen full-height con overlay gradiente */}
-      <div className="relative min-h-[55vw] md:min-h-0">
-        <Image
-          src="/logo.png"
-          alt={nombreTienda}
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Derecha — imagen centrada con fondo */}
+      <div 
+        className="relative min-h-[55vw] md:min-h-0 flex items-center justify-center p-8"
+        style={{ backgroundColor: '#FFF5F8' }}
+      >
+        <div className="relative w-full h-full max-w-md max-h-[80vh]">
+          <Image
+            src="/logo.png"
+            alt={nombreTienda}
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(135deg, rgba(255,27,109,0.2) 0%, rgba(26,10,20,0.35) 100%)',
+              'linear-gradient(135deg, rgba(255,27,109,0.15) 0%, rgba(26,10,20,0.2) 100%)',
           }}
         />
       </div>
