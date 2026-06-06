@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { getConfig, getProductos } from '@/lib/appsscript'
 import ProductCard from '@/components/public/ProductCard'
 import ProductSkeleton from '@/components/public/ProductSkeleton'
-import CategoryFilter from '@/components/public/CategoryFilter'
+import CatalogFilters from '@/components/public/CatalogFilters'
 import type { Metadata } from 'next'
 import type { CategoriaProducto } from '@/types'
 
@@ -17,16 +17,29 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface Props {
-  searchParams: { categoria?: string }
+  searchParams: { categoria?: string; buscar?: string }
 }
 
 export default async function CatalogoPage({ searchParams }: Props) {
   const [config, productos] = await Promise.all([getConfig(), getProductos()])
 
   const categoria = searchParams.categoria as CategoriaProducto | undefined
-  const filtrados = categoria
-    ? productos.filter((p) => p.categoria === categoria)
-    : productos
+  const buscar = (searchParams.buscar ?? '').toLowerCase()
+
+  let filtrados = productos
+
+  // Filtrar por categoría
+  if (categoria) {
+    filtrados = filtrados.filter((p) => p.categoria === categoria)
+  }
+
+  // Filtrar por búsqueda (nombre o descripción)
+  if (buscar) {
+    filtrados = filtrados.filter((p) =>
+      p.nombre.toLowerCase().includes(buscar) ||
+      p.descripcion.toLowerCase().includes(buscar)
+    )
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
@@ -34,17 +47,18 @@ export default async function CatalogoPage({ searchParams }: Props) {
       <p className="mb-8 text-rose-600">
         {filtrados.length} arreglo{filtrados.length !== 1 ? 's' : ''} disponible{filtrados.length !== 1 ? 's' : ''}
         {categoria && <span className="ml-1 font-medium">· {categoria}</span>}
+        {buscar && <span className="ml-1 font-medium">· "{buscar}"</span>}
       </p>
 
       <Suspense>
         <div className="mb-8">
-          <CategoryFilter />
+          <CatalogFilters />
         </div>
       </Suspense>
 
       {filtrados.length === 0 ? (
         <p className="py-16 text-center text-rose-500">
-          No hay productos en esta categoría aún.
+          No hay productos que coincidan con tu búsqueda.
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -56,4 +70,3 @@ export default async function CatalogoPage({ searchParams }: Props) {
     </div>
   )
 }
-
