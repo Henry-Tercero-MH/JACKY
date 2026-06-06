@@ -78,110 +78,45 @@ export default async function HomePage() {
   const destacados = productos.filter((p) => p.destacado).slice(0, 6)
 
   return (
-    <>
-      {/* Hero split */}
-      <HeroSection nombreTienda={config.nombreTienda} descripcionSeo={config.descripcionSeo} />
+    <div>
+      <HeroSection config={config} />
 
-      {/* Strip horizontal oscuro — gradiente hot pink a oscuro */}
-      <section
-        className="px-6 py-20 md:px-12"
-        style={{ background: 'linear-gradient(135deg, #FF1B6D 0%, #1A0A14 100%)' }}
-      >
+      {/* Seccion de puntos fuertes */}
+      <section className="px-6 py-20 md:px-12">
         <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-12 md:grid-cols-2">
-            <FadeUp>
-              <p className="mb-3 font-dancing text-xl" style={{ color: 'rgba(255,245,248,0.7)' }}>
-                Por qué elegirnos
-              </p>
-              <h2
-                className="font-playfair font-black text-4xl leading-tight md:text-5xl"
-                style={{ color: '#FFF5F8' }}
-              >
-                Cada flor cuenta
-                <br />
-                <span className="italic" style={{ color: '#FFD600' }}>
-                  una historia
-                </span>
-              </h2>
-            </FadeUp>
-
-            <div className="flex flex-col gap-8">
-              {stripPoints.map((p, i) => (
-                <FadeUp key={p.num} delay={i * 100}>
-                  <div className="flex items-start gap-5">
-                    <span
-                      className="shrink-0 font-playfair font-black text-5xl leading-none"
-                      style={{ color: 'rgba(255,245,248,0.12)' }}
-                    >
-                      {p.num}
-                    </span>
-                    <div>
-                      <h3
-                        className="mb-1 font-playfair font-bold text-xl"
-                        style={{ color: '#FFF5F8' }}
-                      >
-                        {p.titulo}
-                      </h3>
-                      <p
-                        className="font-nunito text-sm font-semibold leading-relaxed"
-                        style={{ color: 'rgba(255,245,248,0.58)' }}
-                      >
-                        {p.desc}
-                      </p>
-                    </div>
-                  </div>
-                </FadeUp>
-              ))}
-            </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {stripPoints.map((item, idx) => (
+              <FadeUp key={idx} delay={idx * 100}>
+                <div className="rounded-xl border-2 border-rose-100 p-8 hover:border-rose-300 hover:shadow-lg transition-all">
+                  <p className="font-playfair text-6xl font-black text-rose-200">{item.num}</p>
+                  <h3 className="mt-4 font-playfair text-2xl font-bold text-gray-900">
+                    {item.titulo}
+                  </h3>
+                  <p className="mt-3 text-gray-600">{item.desc}</p>
+                </div>
+              </FadeUp>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Grilla de productos — 3 columnas */}
+      {/* Productos destacados */}
       {destacados.length > 0 && (
         <section className="px-6 py-24 md:px-12" style={{ backgroundColor: '#FFF5F8' }}>
           <div className="mx-auto max-w-7xl">
-            <FadeUp>
-              <p className="mb-2 text-center font-dancing text-2xl" style={{ color: '#FF1B6D' }}>
-                Nuestro menú
-              </p>
-              <h2
-                className="mb-3 text-center font-playfair font-black text-4xl md:text-5xl"
-                style={{ color: '#1A0A14' }}
-              >
-                Arreglos{' '}
-                <span className="italic" style={{ color: '#FF1B6D' }}>
-                  destacados
-                </span>
-              </h2>
-              <p
-                className="mb-14 text-center font-nunito text-base font-semibold"
-                style={{ color: 'rgba(26,10,20,0.5)' }}
-              >
-                Los favoritos de nuestros clientes
-              </p>
-            </FadeUp>
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {destacados.map((p, i) => (
-                <FadeUp key={p.id} delay={i * 80}>
-                  <ProductCardEditorial producto={p} whatsapp={config.whatsapp} />
+            <h2 className="mb-4 font-playfair text-5xl font-black text-gray-900">
+              Nuestros Favoritos
+            </h2>
+            <p className="mb-16 max-w-2xl text-gray-600">
+              Selección especial de nuestros productos más bellos y demandados
+            </p>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {destacados.map((p) => (
+                <FadeUp key={p.id}>
+                  <ProductCardEditorial producto={p} />
                 </FadeUp>
               ))}
             </div>
-
-            <FadeUp>
-              <div className="mt-14 text-center">
-                <Link
-                  href="/catalogo"
-                  className="inline-flex items-center gap-2 rounded-full border-2 px-10 py-4 font-nunito text-sm font-bold tracking-wider transition-all hover:bg-[#FF1B6D] hover:text-white hover:border-[#FF1B6D]"
-                  style={{ borderColor: '#FF1B6D', color: '#FF1B6D' }}
-                >
-                  Ver catálogo completo
-                  <i className="fas fa-arrow-right text-xs" />
-                </Link>
-              </div>
-            </FadeUp>
           </div>
         </section>
       )}
@@ -199,7 +134,7 @@ export default async function HomePage() {
                   style={{ borderRadius: '24px' }}
                 >
                   <Image
-                    src="https://images.unsplash.com/photo-1603830187457-a7fecda877bc?q=80&w=800&auto=format&fit=crop"
+                    src="/jackyPagina.jpg"
                     alt="Nuestra historia"
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -244,86 +179,86 @@ export default async function HomePage() {
                 naturaleza. Cada arreglo que crea es más que flores: es una obra de arte llena de
                 emociones, diseñada para transmitir amor, alegría y gratitud.
               </p>
-              <ul className="flex flex-col gap-4">
-                {[
-                  'Flores frescas seleccionadas a mano',
-                  'Diseños únicos para cada ocasión',
-                  'Atención personalizada siempre',
-                  'Entrega puntual y con cuidado',
-                ].map((feature) => (
-                  <li key={feature} className="flex items-center gap-3">
-                    <span
-                      className="h-2 w-2 shrink-0 rounded-full"
-                      style={{ backgroundColor: '#FF1B6D' }}
-                    />
-                    <span
-                      className="font-nunito text-sm font-semibold"
-                      style={{ color: 'rgba(26,10,20,0.72)' }}
-                    >
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 inline-block h-3 w-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: '#FF1B6D' }}
+                  />
+                  <div>
+                    <h3 className="font-playfair font-bold text-gray-900">Misión</h3>
+                    <p className="text-sm text-gray-600">
+                      Crear momentos memorables a través de arreglos florales únicos que expresen los
+                      sentimientos más profundos.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <span
+                    className="mt-1 inline-block h-3 w-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: '#FF1B6D' }}
+                  />
+                  <div>
+                    <h3 className="font-playfair font-bold text-gray-900">Visión</h3>
+                    <p className="text-sm text-gray-600">
+                      Ser la floristería de referencia en la región, reconocida por la calidad,
+                      innovación y el amor que ponemos en cada creación.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </FadeUp>
           </div>
         </div>
       </section>
 
-      {/* Testimonios */}
-      <section
-        className="px-6 py-24 md:px-12"
-        style={{ background: 'linear-gradient(135deg, #FFF5F8 0%, #FFE4EF 100%)' }}
-      >
+      {/* Galería */}
+      <section className="px-6 py-24 md:px-12">
         <div className="mx-auto max-w-7xl">
-          <FadeUp>
-            <p className="mb-2 text-center font-dancing text-2xl" style={{ color: '#FF1B6D' }}>
-              Lo que dicen nuestros clientes
-            </p>
-            <h2
-              className="mb-14 text-center font-playfair font-black text-4xl md:text-5xl"
-              style={{ color: '#1A0A14' }}
-            >
-              Palabras que nos{' '}
-              <span className="italic" style={{ color: '#FF1B6D' }}>
-                inspiran
-              </span>
-            </h2>
-          </FadeUp>
+          <h2 className="mb-4 font-playfair text-5xl font-black text-gray-900">
+            Galería de Inspiración
+          </h2>
+          <p className="mb-16 max-w-2xl text-gray-600">
+            Cada foto cuenta una historia de amor, celebración y belleza
+          </p>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {galeriaImages.map((img, idx) => (
+              <FadeUp key={idx} delay={idx * 50}>
+                <div className="relative aspect-square overflow-hidden rounded-xl">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {testimonios.map((t, i) => (
-              <FadeUp key={t.nombre} delay={i * 100}>
-                <div
-                  className="flex flex-col gap-4 bg-white p-8"
-                  style={{
-                    borderRadius: '20px',
-                    boxShadow: '0 4px 24px rgba(255,27,109,0.07)',
-                  }}
-                >
-                  {/* Comilla tipográfica grande en Playfair */}
-                  <span
-                    className="font-playfair font-black text-7xl leading-none"
-                    style={{ color: '#FFD6E7' }}
-                  >
-                    &ldquo;
-                  </span>
-                  <p
-                    className="font-playfair italic text-base leading-relaxed"
-                    style={{ color: 'rgba(26,10,20,0.72)' }}
-                  >
-                    {t.texto}
-                  </p>
-                  <div className="mt-2 flex items-center gap-3">
+      {/* Testimonios */}
+      <section className="px-6 py-24 md:px-12" style={{ backgroundColor: '#1A0A14' }}>
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-4 font-playfair text-4xl font-black text-white md:text-5xl">
+            Lo que dicen nuestros clientes
+          </h2>
+          <div className="mt-16 grid gap-8 md:grid-cols-3">
+            {testimonios.map((testimonial, idx) => (
+              <FadeUp key={idx} delay={idx * 100}>
+                <div className="rounded-xl border border-white border-opacity-10 bg-white bg-opacity-5 p-8 backdrop-blur-sm">
+                  <p className="mb-6 font-nunito text-white">{testimonial.texto}</p>
+                  <div className="flex items-center gap-4">
                     <div
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-playfair font-black text-base text-white"
-                      style={{ backgroundColor: t.color }}
+                      className="flex h-12 w-12 items-center justify-center rounded-full text-white font-playfair font-bold text-lg"
+                      style={{ backgroundColor: testimonial.color }}
                     >
-                      {t.inicial}
+                      {testimonial.inicial}
                     </div>
-                    <span className="font-nunito text-sm font-bold" style={{ color: '#1A0A14' }}>
-                      {t.nombre}
-                    </span>
+                    <p className="font-playfair font-bold text-white">{testimonial.nombre}</p>
                   </div>
                 </div>
               </FadeUp>
@@ -332,153 +267,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Galería bento — 6 columnas / 2 filas, primera imagen ocupa 2×2 */}
-      <section className="px-6 py-24 md:px-12" style={{ backgroundColor: '#1A0A14' }}>
-        <div className="mx-auto max-w-7xl">
-          <FadeUp>
-            <p className="mb-2 text-center font-dancing text-2xl" style={{ color: '#FF1B6D' }}>
-              Nuestra galería
-            </p>
-            <h2
-              className="mb-12 text-center font-playfair font-black text-4xl md:text-5xl"
-              style={{ color: '#FFF5F8' }}
-            >
-              Arte en cada{' '}
-              <span className="italic" style={{ color: '#FFD600' }}>
-                pétalo
-              </span>
-            </h2>
-          </FadeUp>
-
-          <div
-            className="grid gap-3"
-            style={{
-              gridTemplateColumns: 'repeat(6, 1fr)',
-              gridTemplateRows: 'repeat(2, 220px)',
-            }}
+      {/* CTA Final */}
+      <section className="px-6 py-20 md:px-12">
+        <div className="mx-auto max-w-4xl rounded-2xl p-12 md:p-16" style={{ backgroundColor: '#FF1B6D' }}>
+          <h2 className="mb-4 font-playfair text-4xl font-black text-white md:text-5xl">
+            ¿Listo para crear algo especial?
+          </h2>
+          <p className="mb-8 text-lg text-white text-opacity-90">
+            Contáctanos hoy y déjanos ayudarte a expresar tus sentimientos con flores
+          </p>
+          <Link
+            href="/catalogo"
+            className="inline-block rounded-lg bg-white px-8 py-4 font-semibold text-rose-600 hover:bg-opacity-90 transition-all"
           >
-            {galeriaImages.map((img, i) => (
-              <div
-                key={img.alt}
-                className="relative overflow-hidden"
-                style={{
-                  borderRadius: '16px',
-                  gridColumn: i === 0 ? 'span 2' : 'span 1',
-                  gridRow: i === 0 ? 'span 2' : 'span 1',
-                }}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
+            Ver catálogo completo
+          </Link>
         </div>
       </section>
-
-      {/* Contacto — fondo oscuro gradiente morado, split 50/50 */}
-      <section
-        id="contacto"
-        className="px-6 py-24 md:px-12"
-        style={{ background: 'linear-gradient(135deg, #1A0A14 0%, #2D0A22 100%)' }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-12 md:grid-cols-2">
-
-            {/* Izquierda: título + CTA */}
-            <FadeUp>
-              <p className="mb-3 font-dancing text-2xl" style={{ color: '#FF1B6D' }}>
-                Estamos para ti
-              </p>
-              <h2
-                className="mb-6 font-playfair font-black text-4xl leading-tight md:text-5xl"
-                style={{ color: '#FFF5F8' }}
-              >
-                ¿Listo para crear algo{' '}
-                <span className="italic" style={{ color: '#FF1B6D' }}>
-                  especial?
-                </span>
-              </h2>
-              <p
-                className="mb-8 font-nunito text-base font-semibold leading-relaxed"
-                style={{ color: 'rgba(255,245,248,0.58)' }}
-              >
-                Cuéntanos tu idea y juntos crearemos el arreglo perfecto para tu momento especial.
-              </p>
-              <a
-                href={`https://wa.me/${config.whatsapp.replace(/\D/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 rounded-full px-8 py-4 font-nunito text-sm font-bold text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#FF1B6D' }}
-              >
-                <i className="fab fa-whatsapp text-lg" />
-                Escribir por WhatsApp
-              </a>
-            </FadeUp>
-
-            {/* Derecha: tarjetas de info con icono en caja coloreada semitransparente */}
-            <div className="flex flex-col gap-4">
-              {[
-                {
-                  icon: 'fas fa-map-marker-alt',
-                  color: '#FF1B6D',
-                  label: 'Ubicación',
-                  value: config.ciudad || 'Guatemala',
-                },
-                {
-                  icon: 'fas fa-phone',
-                  color: '#FF8C00',
-                  label: 'WhatsApp',
-                  value: config.whatsapp,
-                },
-                {
-                  icon: 'fas fa-clock',
-                  color: '#00C4F0',
-                  label: 'Horarios',
-                  value: config.horarios || 'Lunes a Sábado 8:00 – 18:00',
-                },
-              ].map((item, i) => (
-                <FadeUp key={item.label} delay={i * 80}>
-                  <div
-                    className="flex items-center gap-4 p-5"
-                    style={{
-                      backgroundColor: 'rgba(255,245,248,0.04)',
-                      borderRadius: '16px',
-                      border: '1px solid rgba(255,245,248,0.07)',
-                    }}
-                  >
-                    <div
-                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                      style={{ backgroundColor: `${item.color}22` }}
-                    >
-                      <i className={`${item.icon} text-base`} style={{ color: item.color }} />
-                    </div>
-                    <div>
-                      <p
-                        className="mb-0.5 font-nunito text-xs font-bold uppercase tracking-widest"
-                        style={{ color: 'rgba(255,245,248,0.38)' }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="font-nunito text-sm font-semibold whitespace-pre-line"
-                        style={{ color: '#FFF5F8' }}
-                      >
-                        {item.value}
-                      </p>
-                    </div>
-                  </div>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   )
 }
